@@ -35,7 +35,11 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
+    // displays the original image to replace the herb details view controller once the transition animation completes
+    transition.dismissCompletion = {
+        self.selectedImage!.hidden = false
+    }
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -124,7 +128,9 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     }
 
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil;
+        // tells your animator object that you’re dismissing a view controller so the animation code will run in the correct direction
+        transition.presenting = false
+        return transition;
     }
 
 }

@@ -14,6 +14,8 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     var presenting = true
     var originFrame = CGRect.zero
 
+    var dismissCompletion: (()->())?
+
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return duration
     }
@@ -54,6 +56,10 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                                     herbView.transform = self.presenting ? CGAffineTransformIdentity : scaleTransform
                                     herbView.center = CGPoint(x: CGRectGetMidX(finalFrame), y: CGRectGetMidY(finalFrame))
             }, completion:{_ in
+                if !self.presenting {
+                    // executes dismissCompletion once the dismiss animation has finished
+                    self.dismissCompletion?()
+                }
                 // called completeTransition() to hand things back to UIKit
                 transitionContext.completeTransition(true)
         })
