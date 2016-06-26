@@ -114,6 +114,12 @@ class ViewController: UIViewController {
 
 extension ViewController: UIViewControllerTransitioningDelegate {
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        // sets the originFrame of the transition to the frame of selectedImage, which is the image view you last tapped. Then you set presenting to true and hide the tapped image during the animation
+        transition.originFrame = selectedImage!.superview!.convertRect(selectedImage!.frame, toView: nil)
+        transition.presenting = true
+        selectedImage!.hidden = true
+
         return transition;
     }
 
